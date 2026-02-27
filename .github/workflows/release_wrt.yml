@@ -8,15 +8,22 @@ on:
         required: true
         description: Device Model
         type: choice
-        default: jdcloud_ipq60xx_immwrt
+        default: jdcloud_ipq60xx_libwrt
         options:
+          - aliyun_ap8220_libwrt
+          - aliyun_ap8220_libwrt_nowifi
           - aliyun_ap8220_immwrt
+          - jdcloud_ipq60xx_immwrt
+          - jdcloud_ipq60xx_libwrt
+          - jdcloud_ipq60xx_libwrt_nowifi
+          - zn_m2_libwrt_nowifi
+          - zn_m2_libwrt
+          - zn_m2_immwrt
+          - link_nn6000v2_immwrt
+          - link_nn6000v2_libwrt
           - cmcc_rax3000m_immwrt
           - gemtek_w1701k_immwrt
           - jdcloud_ax6000_immwrt
-          - jdcloud_ipq60xx_immwrt
-          - jdcloud_ipq60xx_libwrt
-          - link_nn6000v2_immwrt
           - linksys_mx4x00_immwrt
           - n1_immwrt
           - qihoo_360v6_immwrt
@@ -24,8 +31,6 @@ on:
           - redmi_ax6_immwrt
           - redmi_ax6_libwrt
           - redmi_ax6000_immwrt21
-          - zn_m2_immwrt
-          - zn_m2_libwrt
           - x64_immwrt
 
 env:
@@ -133,6 +138,6 @@ jobs:
       - name: Release Firmware
         uses: softprops/action-gh-release@v2.5.0
         with:
-          tag_name: ${{ env.BUILD_DATE }}_${{ inputs.model }}
+          tag_name: ${{ inputs.model }}_${{ env.BUILD_DATE }}
           files: ${{ inputs.model == 'n1_immwrt' && env.PACKAGED_OUTPUTPATH || './firmware' }}/*.*
           body_path: ./release_body.txt
