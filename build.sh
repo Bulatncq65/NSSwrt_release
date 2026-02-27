@@ -47,6 +47,87 @@ remove_uhttpd_dependency() {
     fi
 }
 
+fix_Dev_name_wifi_name() {
+    
+	local WRT_NAME="NSS"       #自定义设备名称
+	local WRT_IP="192.168.1.1" #自定义设备LAN_IP
+	local WRT_SSID="NSS" #自定义WiFi名
+	local WRT_WORD="87654321" #自定义WiFi密码
+
+    cd "$BASE_PATH/$BUILD_DIR"
+    local CFG_FILE="./package/base-files/files/bin/config_generate"
+    local WIFI_SH=$(find ./target/linux/{mediatek/filogic,qualcommax}/base-files/etc/uci-defaults/ -type f -name "*set-wireless.sh" 2>/dev/null)
+    local WIFI_UC="./package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc"
+if [ -f "$WIFI_SH" ]; then
+	#修改WIFI名称
+	sed -i "s/BASE_SSID='.*'/BASE_SSID='$WRT_SSID'/g" $WIFI_SH
+	#修改WIFI密码
+	sed -i "s/BASE_WORD='.*'/BASE_WORD='$WRT_WORD'/g" $WIFI_SH
+elif [ -f "$WIFI_UC" ]; then
+	#修改WIFI名称
+	sed -i "s/ssid='.*'/ssid='$WRT_SSID'/g" $WIFI_UC
+	#修改WIFI密码
+	sed -i "s/key='.*'/key='$WRT_WORD'/g" $WIFI_UC
+	#修改WIFI地区
+#	sed -i "s/country='.*'/country='CN'/g" $WIFI_UC
+	#修改WIFI加密
+	sed -i "s/encryption='.*'/encryption='psk2+ccmp'/g" $WIFI_UC
+fi
+
+#修改默认IP地址
+sed -i "s/192\.168\.[0-9]*\.[0-9]*/$WRT_IP/g" $CFG_FILE
+#修改默认主机名
+sed -i "s/hostname='.*'/hostname='$WRT_NAME'/g" $CFG_FILE
+
+##无WIFI配置调整Q6大小
+    local DTS_PATH="./target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/"
+
+#if [[ "${WRT_CONFIG,,}" == *"wifi"* && "${WRT_CONFIG,,}" == *"no"* ]]; then
+#	find $DTS_PATH -type f ! -iname '*nowifi*' -exec sed -i 's/ipq\(6018\|8074\)-512m.dtsi/ipq\1-nowifi.dtsi/g' {} +
+#	echo "qualcommax set up nowifi successfully!"
+#fi
+	local IPQ6018="./target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/ipq6018-nowifi.dtsi"
+	local IPQ8074="./target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/ipq8074-nowifi.dtsi"
+	if [[ "${CONFIG_FILE,,}" == *"wifi"* && "${CONFIG_FILE,,}" == *"no"* ]]; then
+
+    echo  '// SPDX-License-Identifier: GPL-2.0-only
+
+#include "ipq8074.dtsi"
+
+&tzapp_region {
+	reg = <0x0 0x4a400000 0x0 0x100000>;
+};
+
+&q6_region {
+	reg = <0x0 0x4b000000 0x0 0x1000000>;
+};
+
+&q6_etr_region {
+	reg = <0x0 0x4c000000 0x0 0x100000>;
+};
+
+&m3_dump_region {
+	reg = <0x0 0x4c100000 0x0 0x100000>;
+};
+
+&ramoops_region {
+	reg = <0x0 0x4c200000 0x0 0x100000>;
+};' > $IPQ8074
+    echo  '// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+
+#include "ipq6018.dtsi"
+
+&q6_region {
+	reg = <0x0 0x4ab00000 0x0 0x1000000>;
+};' > $IPQ6018
+
+find $DTS_PATH -type f ! -iname '*-512m*' ! -iname '*nowifi*' -exec sed -i 's/\("ipq\(6018\|8074\)\)\(-512m\)\?\.dtsi"/\1-nowifi.dtsi"/' {} +
+
+    echo "qualcommax set up nowifi successfully!"
+fi
+}
+
+
 apply_config() {
     \cp -f "$CONFIG_FILE" "$BASE_PATH/../$BUILD_DIR/.config"
     

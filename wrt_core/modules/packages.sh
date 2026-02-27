@@ -5,14 +5,16 @@ remove_unwanted_packages() {
         "luci-app-passwall" "luci-app-ddns-go" "luci-app-rclone" "luci-app-ssr-plus"
         "luci-app-vssr" "luci-app-daed" "luci-app-dae" "luci-app-alist" "luci-app-homeproxy"
         "luci-app-haproxy-tcp" "luci-app-openclash" "luci-app-mihomo" "luci-app-appfilter"
-        "luci-app-msd_lite" "luci-app-unblockneteasemusic"
+        "luci-app-msd_lite" "luci-app-unblockneteasemusic"  "luci-app-timewol" "luci-app-qbittorrent" "luci-app-transmission" "luci-app-udp2raw" "luci-app-gost"
     )
     local packages_net=(
-        "haproxy" "xray-core" "xray-plugin" "dns2socks" "alist" "hysteria"
+        "haproxy" "xray-core" "xray-plugin" "dns2socks" "alist" "hysteria" "qBittorrent-Enhanced-Edition" "transmission" "transmission-web-control" "udp2raw" "gost"
         "mosdns" "adguardhome" "ddns-go" "naiveproxy" "shadowsocks-rust"
         "sing-box" "v2ray-core" "v2ray-geodata" "v2ray-plugin" "tuic-client"
         "chinadns-ng" "ipt2socks" "tcping" "trojan-plus" "simple-obfs" "shadowsocksr-libev"
         "dae" "daed" "mihomo" "geoview" "tailscale" "open-app-filter" "msd_lite"
+        "qBittorrent-Enhanced-Edition" "daed" "mihomo" "geoview" "tailscale" "open-app-filter" "msd_lite"
+
     )
     local packages_utils=(
         "cups"
@@ -53,6 +55,10 @@ remove_unwanted_packages() {
         \rm -rf ./package/istore
     fi
 
+    if [[ -d ./feeds/packages/libs/gost_engine ]]; then
+        \rm -rf ./feeds/packages/libs/gost_engine
+    fi
+
     if [ -d "$BUILD_DIR/target/linux/qualcommax/base-files/etc/uci-defaults" ]; then
         find "$BUILD_DIR/target/linux/qualcommax/base-files/etc/uci-defaults/" -type f -name "99*.sh" -exec rm -f {} +
     fi
@@ -78,7 +84,9 @@ install_small8() {
         luci-app-quickstart luci-app-istorex luci-app-cloudflarespeedtest netdata luci-app-netdata \
         lucky luci-app-lucky luci-app-openclash luci-app-homeproxy luci-app-amlogic nikki luci-app-nikki \
         tailscale luci-app-tailscale oaf open-app-filter luci-app-oaf easytier luci-app-easytier \
-        msd_lite luci-app-msd_lite cups luci-app-cupsd
+        msd_lite luci-app-msd_lite cups luci-app-cupsd luci-app-momo momo luci-app-partexp openwrt-minieap luci-app-minieap \
+        homebox netspeedtest speedtest-cli luci-app-netspeedtest luci-app-timewol luci-app-control-timewol luci-app-wolplus \
+        qbittorrent luci-app-qbittorrent transmission transmission-web-control luci-app-transmission udp2raw luci-app-udp2raw gost luci-app-gost
 }
 
 install_passwall() {
