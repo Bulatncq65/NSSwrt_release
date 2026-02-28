@@ -50,6 +50,15 @@ remove_unwanted_packages() {
             \rm -rf ./feeds/small8/$pkg
         fi
     done
+	
+    if [ ! -d ./wolplus_temp ]; then
+        git clone https://github.com/sundaqiang/openwrt-packages ./wolplus_temp &&  cd ./wolplus_temp
+		git sparse-checkout set luci-app-wolplus && cd .. && mv ./wolplus_temp/luci-app-wolplus ./package/ && rm -rf wolplus_temp
+    fi
+
+    if [ ! -d ./netspeedtest ]; then
+        git clone https://github.com/sirpdboy/luci-app-netspeedtest ./package/netspeedtest
+    fi
 
     if [[ -d ./package/istore ]]; then
         \rm -rf ./package/istore
@@ -101,13 +110,6 @@ install_fullconenat() {
     fi
     if [ ! -d $BUILD_DIR/package/network/utils/fullconenat ]; then
         ./scripts/feeds install -p small8 -f fullconenat
-    fi
-    if [ ! -d $BUILD_DIR/package/netspeedtest ]; then
-        git clone https://github.com/sirpdboy/luci-app-netspeedtest $BUILD_DIR/package/netspeedtest
-    fi
-    if [ ! -d $BUILD_DIR/package/wolplus_temp ]; then
-        git clone https://github.com/sundaqiang/openwrt-packages $BUILD_DIR/package/wolplus_temp
-		cd $BUILD_DIR/package/wolplus_temp && git sparse-checkout set luci-app-wolplus && mv luci-app-wolplus .. && cd .. && rm -rf wolplus_temp
     fi
 }
 
