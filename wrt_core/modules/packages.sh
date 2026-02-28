@@ -85,8 +85,8 @@ install_small8() {
         lucky luci-app-lucky luci-app-openclash luci-app-homeproxy luci-app-amlogic nikki luci-app-nikki \
         tailscale luci-app-tailscale oaf open-app-filter luci-app-oaf easytier luci-app-easytier \
         msd_lite luci-app-msd_lite cups luci-app-cupsd luci-app-momo momo luci-app-partexp luci-app-pushbot \
-#homebox netspeedtest speedtest-cli luci-app-netspeedtest luci-app-timewol luci-app-control-timewol luci-app-wolplus \
         qbittorrent luci-app-qbittorrent udp2raw luci-app-udp2raw gost luci-app-gost
+#homebox netspeedtest speedtest-cli luci-app-netspeedtest luci-app-timewol luci-app-control-timewol luci-app-wolplus \
 }
 
 install_passwall() {
