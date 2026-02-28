@@ -80,7 +80,7 @@ sed -i "s/192\.168\.[0-9]*\.[0-9]*/$WRT_IP/g" $CFG_FILE
 sed -i "s/hostname='.*'/hostname='$WRT_NAME'/g" $CFG_FILE
 
 ##无WIFI配置调整Q6大小
-    local DTS_PATH="./target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/"
+    local DTS_PATH="./target/linux/qualcommax/dts/"
 
 #if [[ "${WRT_CONFIG,,}" == *"wifi"* && "${WRT_CONFIG,,}" == *"no"* ]]; then
 #	find $DTS_PATH -type f ! -iname '*nowifi*' -exec sed -i 's/ipq\(6018\|8074\)-512m.dtsi/ipq\1-nowifi.dtsi/g' {} +

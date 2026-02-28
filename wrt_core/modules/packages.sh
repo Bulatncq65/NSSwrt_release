@@ -5,10 +5,10 @@ remove_unwanted_packages() {
         "luci-app-passwall" "luci-app-ddns-go" "luci-app-rclone" "luci-app-ssr-plus"
         "luci-app-vssr" "luci-app-daed" "luci-app-dae" "luci-app-alist" "luci-app-homeproxy"
         "luci-app-haproxy-tcp" "luci-app-openclash" "luci-app-mihomo" "luci-app-appfilter"
-        "luci-app-msd_lite" "luci-app-unblockneteasemusic"  "luci-app-timewol" "luci-app-qbittorrent" "luci-app-transmission" "luci-app-udp2raw" "luci-app-gost"
+        "luci-app-msd_lite" "luci-app-unblockneteasemusic" "luci-app-qbittorrent" "luci-app-udp2raw" "luci-app-gost"
     )
     local packages_net=(
-        "haproxy" "xray-core" "xray-plugin" "dns2socks" "alist" "hysteria" "qBittorrent-Enhanced-Edition" "transmission" "transmission-web-control" "udp2raw" "gost"
+        "haproxy" "xray-core" "xray-plugin" "dns2socks" "alist" "hysteria" "udp2raw" "gost"
         "mosdns" "adguardhome" "ddns-go" "naiveproxy" "shadowsocks-rust"
         "sing-box" "v2ray-core" "v2ray-geodata" "v2ray-plugin" "tuic-client"
         "chinadns-ng" "ipt2socks" "tcping" "trojan-plus" "simple-obfs" "shadowsocksr-libev"
@@ -84,9 +84,9 @@ install_small8() {
         luci-app-quickstart luci-app-istorex luci-app-cloudflarespeedtest netdata luci-app-netdata \
         lucky luci-app-lucky luci-app-openclash luci-app-homeproxy luci-app-amlogic nikki luci-app-nikki \
         tailscale luci-app-tailscale oaf open-app-filter luci-app-oaf easytier luci-app-easytier \
-        msd_lite luci-app-msd_lite cups luci-app-cupsd luci-app-momo momo luci-app-partexp openwrt-minieap luci-app-minieap \
-        homebox netspeedtest speedtest-cli luci-app-netspeedtest luci-app-timewol luci-app-control-timewol luci-app-wolplus \
-        qbittorrent luci-app-qbittorrent transmission transmission-web-control luci-app-transmission udp2raw luci-app-udp2raw gost luci-app-gost
+        msd_lite luci-app-msd_lite cups luci-app-cupsd luci-app-momo momo luci-app-partexp luci-app-pushbot \
+#homebox netspeedtest speedtest-cli luci-app-netspeedtest luci-app-timewol luci-app-control-timewol luci-app-wolplus \
+        qbittorrent luci-app-qbittorrent udp2raw luci-app-udp2raw gost luci-app-gost
 }
 
 install_passwall() {
@@ -94,12 +94,20 @@ install_passwall() {
     ./scripts/feeds install -p passwall -f luci-app-passwall
 }
 
+
 install_fullconenat() {
     if [ ! -d $BUILD_DIR/package/network/utils/fullconenat-nft ]; then
         ./scripts/feeds install -p small8 -f fullconenat-nft
     fi
     if [ ! -d $BUILD_DIR/package/network/utils/fullconenat ]; then
         ./scripts/feeds install -p small8 -f fullconenat
+    fi
+    if [ ! -d $BUILD_DIR/package/netspeedtest ]; then
+        git clone https://github.com/sirpdboy/luci-app-netspeedtest $BUILD_DIR/package/netspeedtest
+    fi
+    if [ ! -d $BUILD_DIR/package/wolplus_temp ]; then
+        git clone https://github.com/sundaqiang/openwrt-packages $BUILD_DIR/package/wolplus_temp
+		cd $BUILD_DIR/package/wolplus_temp && git sparse-checkout set luci-app-wolplus && mv luci-app-wolplus .. && cd .. && rm -rf wolplus_temp
     fi
 }
 
