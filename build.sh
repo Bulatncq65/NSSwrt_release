@@ -81,6 +81,7 @@ sed -i "s/hostname='.*'/hostname='$WRT_NAME'/g" $CFG_FILE
 
 ##无WIFI配置调整Q6大小
     local DTS_PATH="./target/linux/qualcommax/dts/"
+    local DTS_PATH2="./target/linux/qualcommax/files/arch/arm64/boot/dts/qcom/"
 
 #if [[ "${WRT_CONFIG,,}" == *"wifi"* && "${WRT_CONFIG,,}" == *"no"* ]]; then
 #	find $DTS_PATH -type f ! -iname '*nowifi*' -exec sed -i 's/ipq\(6018\|8074\)-512m.dtsi/ipq\1-nowifi.dtsi/g' {} +
@@ -122,6 +123,7 @@ sed -i "s/hostname='.*'/hostname='$WRT_NAME'/g" $CFG_FILE
 };' > $IPQ6018
 
 find $DTS_PATH -type f ! -iname '*-512m*' ! -iname '*nowifi*' -exec sed -i 's/\("ipq\(6018\|8074\)\)\(-512m\)\?\.dtsi"/\1-nowifi.dtsi"/' {} +
+find $DTS_PATH2 -type f ! -iname '*-512m*' ! -iname '*nowifi*' -exec sed -i 's/\("ipq\(6018\|8074\)\)\(-512m\)\?\.dtsi"/\1-nowifi.dtsi"/' {} +
 
     echo "qualcommax set up nowifi successfully!"
 fi
