@@ -4,8 +4,8 @@ remove_unwanted_packages() {
     local luci_packages=(
         "luci-app-passwall" "luci-app-ddns-go" "luci-app-rclone" "luci-app-ssr-plus"
         "luci-app-vssr" "luci-app-daed" "luci-app-dae" "luci-app-alist" "luci-app-homeproxy"
-        "luci-app-haproxy-tcp" "luci-app-openclash" "luci-app-mihomo" "luci-app-appfilter"
-        "luci-app-msd_lite" "luci-app-unblockneteasemusic" "luci-app-qbittorrent" "luci-app-udp2raw" "luci-app-gost"
+        "luci-app-haproxy-tcp" "luci-app-openclash" "luci-app-mihomo" "luci-app-appfilter" 
+        "luci-app-msd_lite" "luci-app-unblockneteasemusic"  "luci-app-timewol" "luci-app-qbittorrent" "luci-app-udp2raw" "luci-app-gost"
     )
     local packages_net=(
         "haproxy" "xray-core" "xray-plugin" "dns2socks" "alist" "hysteria" "udp2raw" "gost"
@@ -51,11 +51,10 @@ remove_unwanted_packages() {
         fi
     done
 	
-    if [ ! -d ./wolplus_temp ]; then
-        git clone https://github.com/sundaqiang/openwrt-packages ./wolplus_temp &&  cd ./wolplus_temp
-		git sparse-checkout set luci-app-wolplus && cd .. && mv ./wolplus_temp/luci-app-wolplus ./package/ && rm -rf wolplus_temp
-    fi
-
+    #if [ ! -d ./wolplus_temp ]; then
+    #    git clone https://github.com/sundaqiang/openwrt-packages ./wolplus_temp &&  cd ./wolplus_temp
+	#	git sparse-checkout set luci-app-wolplus && cd .. && mv ./wolplus_temp/luci-app-wolplus ./package/ && rm -rf wolplus_temp
+    #fi
     if [ ! -d ./netspeedtest ]; then
         git clone https://github.com/sirpdboy/luci-app-netspeedtest ./package/netspeedtest
     fi
@@ -94,8 +93,8 @@ install_small8() {
         lucky luci-app-lucky luci-app-openclash luci-app-homeproxy luci-app-amlogic nikki luci-app-nikki \
         tailscale luci-app-tailscale oaf open-app-filter luci-app-oaf easytier luci-app-easytier \
         msd_lite luci-app-msd_lite cups luci-app-cupsd luci-app-momo momo luci-app-partexp luci-app-pushbot \
-        qbittorrent luci-app-qbittorrent udp2raw luci-app-udp2raw gost luci-app-gost
-#homebox netspeedtest speedtest-cli luci-app-netspeedtest luci-app-timewol luci-app-control-timewol luci-app-wolplus \
+        qbittorrent luci-app-qbittorrent udp2raw luci-app-udp2raw gost luci-app-gost luci-app-timewol luci-app-control-timewol luci-app-wolplus
+#homebox netspeedtest speedtest-cli luci-app-netspeedtest \
 }
 
 install_passwall() {
