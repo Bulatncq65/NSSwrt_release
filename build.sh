@@ -54,7 +54,7 @@ fix_Dev_name_wifi_name() {
 	local WRT_SSID="NSS" #自定义WiFi名
 	local WRT_WORD="87654321" #自定义WiFi密码
 
-    cd "$BASE_PATH/$BUILD_DIR"
+    cd "$BASE_PATH/../$BUILD_DIR/"
     local CFG_FILE="./package/base-files/files/bin/config_generate"
     local WIFI_SH=$(find ./target/linux/{mediatek/filogic,qualcommax}/base-files/etc/uci-defaults/ -type f -name "*set-wireless.sh" 2>/dev/null)
     local WIFI_UC="./package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc"
